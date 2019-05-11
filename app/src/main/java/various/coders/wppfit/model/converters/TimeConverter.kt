@@ -13,4 +13,9 @@ class TimeConverter {
             Date()
         }
     }
+
+    @TypeConverter
+    public fun toTimestamp(date: Date): Long {
+        return date.time
+    }
 }
