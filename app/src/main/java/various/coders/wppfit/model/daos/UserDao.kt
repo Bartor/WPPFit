@@ -6,14 +6,14 @@ import various.coders.wppfit.model.entities.User
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user WHERE uid = :id LIMIT 1")
-    fun getUser(id: Int): User
+    suspend fun getUser(id: Int): User
 
     @Update
-    fun updateUser(user: User)
+    suspend fun updateUser(user: User)
 
     @Insert
-    fun newUser(user: User)
+    suspend fun newUser(user: User)
 
     @Delete
-    fun deleteUser(user: User)
+    suspend fun deleteUser(user: User)
 }
