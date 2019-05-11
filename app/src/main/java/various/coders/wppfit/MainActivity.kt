@@ -1,5 +1,6 @@
 package various.coders.wppfit
 
+import android.app.Application
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -12,7 +13,6 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import various.coders.wppfit.fragments.HomeScreenFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
