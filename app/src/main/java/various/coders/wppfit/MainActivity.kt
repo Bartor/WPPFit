@@ -24,6 +24,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
+        val homeScreen = HomeScreenFragment()
+        supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, homeScreen).commit()
+
         nav_view.setNavigationItemSelectedListener(this)
     }
 
