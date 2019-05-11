@@ -13,7 +13,7 @@
             android:layout_height="wrap_content" android:id="@+id/topBarGuideline"
             app:layout_constraintGuide_begin="56dp"/>
     <TextView
-            android:text="Henlo"
+            android:text="add exercise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"

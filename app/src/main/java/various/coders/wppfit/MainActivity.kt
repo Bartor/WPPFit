@@ -1,6 +1,6 @@
 package various.coders.wppfit
 
-import android.app.Application
+import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -10,9 +10,14 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import various.coders.wppfit.fragments.AddExerciseFragment
+import various.coders.wppfit.fragments.AddMealFragment
 import various.coders.wppfit.fragments.HomeScreenFragment
+import various.coders.wppfit.fragments.UserProfileFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private lateinit var currentFragment: Fragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,8 +29,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        val homeScreen = HomeScreenFragment()
-        supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, homeScreen).commit()
+        currentFragment = HomeScreenFragment()
+        supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, currentFragment).commit()
 
         //select the "home" menu item
         nav_view.menu.getItem(0).setChecked(true)
@@ -58,19 +63,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         when (item.itemId) {
+            //todo think again about adding to the back stack
             R.id.nav_home -> {
-                // Handle the camera action
+                if (currentFragment !is HomeScreenFragment) {
+                    currentFragment = HomeScreenFragment()
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment)
+                        .addToBackStack(null).commit()
+                }
             }
             R.id.nav_exercise -> {
-
+                if (currentFragment !is AddExerciseFragment) {
+                    currentFragment = AddExerciseFragment()
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment)
+                        .addToBackStack(null).commit()
+                }
             }
             R.id.nav_meal -> {
-
+                if (currentFragment !is AddMealFragment) {
+                    currentFragment = AddMealFragment()
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment)
+                        .addToBackStack(null).commit()
+                }
             }
             R.id.nav_profile -> {
-
+                if (currentFragment !is UserProfileFragment) {
+                    currentFragment = UserProfileFragment()
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment)
+                        .addToBackStack(null).commit()
+                }
             }
         }
 
