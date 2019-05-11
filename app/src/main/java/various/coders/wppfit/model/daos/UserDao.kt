@@ -1,6 +1,6 @@
 package various.coders.wppfit.model.daos
 
-import androidx.room.*
+import android.arch.persistence.room.*
 import various.coders.wppfit.model.entities.User
 
 @Dao

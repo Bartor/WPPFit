@@ -1,6 +1,6 @@
 package various.coders.wppfit.model.entities
 
-import androidx.room.*
+import android.arch.persistence.room.*
 import various.coders.wppfit.model.converters.TimeConverter
 import java.util.*
 

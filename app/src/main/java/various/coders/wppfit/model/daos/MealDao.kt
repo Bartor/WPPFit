@@ -1,9 +1,6 @@
 package various.coders.wppfit.model.daos
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import android.arch.persistence.room.*
 import various.coders.wppfit.model.entities.Meal
 import java.util.*
 

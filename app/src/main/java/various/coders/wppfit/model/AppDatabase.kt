@@ -1,7 +1,7 @@
 package various.coders.wppfit.model
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
+import android.arch.persistence.room.Database
+import android.arch.persistence.room.RoomDatabase
 import various.coders.wppfit.model.daos.MealDao
 import various.coders.wppfit.model.daos.UserDao
 import various.coders.wppfit.model.entities.Meal

@@ -1,6 +1,6 @@
 package various.coders.wppfit.model.converters
 
-import androidx.room.TypeConverter
+import android.arch.persistence.room.TypeConverter
 import java.lang.Exception
 import java.util.*
 
