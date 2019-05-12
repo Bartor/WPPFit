@@ -1,4 +1,4 @@
-package various.coders.wppfit.model.converters
+package various.coders.wppfit.model.database.converters
 
 import android.arch.persistence.room.TypeConverter
 import java.lang.Exception

@@ -1,7 +1,7 @@
-package various.coders.wppfit.model.daos
+package various.coders.wppfit.model.database.daos
 
 import android.arch.persistence.room.*
-import various.coders.wppfit.model.entities.User
+import various.coders.wppfit.model.database.entities.User
 
 @Dao
 interface UserDao {

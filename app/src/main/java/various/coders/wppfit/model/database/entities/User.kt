@@ -1,7 +1,7 @@
-package various.coders.wppfit.model.entities
+package various.coders.wppfit.model.database.entities
 
 import android.arch.persistence.room.*
-import various.coders.wppfit.model.converters.TimeConverter
+import various.coders.wppfit.model.database.converters.TimeConverter
 import java.util.*
 
 @Entity
