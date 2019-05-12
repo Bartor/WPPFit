@@ -64,33 +64,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            //todo think again about adding to the back stack
             R.id.nav_home -> {
                 if (currentFragment !is HomeScreenFragment) {
                     currentFragment = HomeScreenFragment()
-                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment)
-                        .addToBackStack(null).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit()
                 }
             }
             R.id.nav_exercise -> {
                 if (currentFragment !is AddExerciseFragment) {
                     currentFragment = AddExerciseFragment()
-                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment)
-                        .addToBackStack(null).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit()
                 }
             }
             R.id.nav_meal -> {
                 if (currentFragment !is AddMealFragment) {
                     currentFragment = AddMealFragment()
-                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment)
-                        .addToBackStack(null).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit()
                 }
             }
             R.id.nav_profile -> {
                 if (currentFragment !is UserProfileFragment) {
                     currentFragment = UserProfileFragment()
-                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment)
-                        .addToBackStack(null).commit()
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit()
                 }
             }
         }
