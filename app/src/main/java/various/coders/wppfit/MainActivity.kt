@@ -1,5 +1,6 @@
 package various.coders.wppfit
 
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -14,9 +15,11 @@ import various.coders.wppfit.fragments.AddExerciseFragment
 import various.coders.wppfit.fragments.AddMealFragment
 import various.coders.wppfit.fragments.HomeScreenFragment
 import various.coders.wppfit.fragments.UserProfileFragment
+import various.coders.wppfit.model.AppViewModel
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var currentFragment: Fragment
+    private lateinit var viewModel: AppViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +31,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+
+        viewModel = ViewModelProviders.of(this).get(AppViewModel::class.java)
+        viewModel.getDb(this)
 
         currentFragment = HomeScreenFragment()
         supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, currentFragment).commit()
