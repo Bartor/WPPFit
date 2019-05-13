@@ -15,11 +15,10 @@ data class User(
     @ColumnInfo(name = "first_name") val firstName: String,
     @ColumnInfo(name = "last_name") val lastName: String,
     @ColumnInfo(name = "gender") val gender: Boolean, //true for M, false for F
-
     @ColumnInfo(name = "age")
     @TypeConverters(TimeConverter::class)
     val age: Date,
-
+    @ColumnInfo(name = "activityRatio") val activityRatio: Double,
     @ColumnInfo(name = "weight") val weight: Int,
     @ColumnInfo(name = "height") val height: Int
 ): Serializable

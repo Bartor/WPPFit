@@ -80,6 +80,7 @@ class EditProfileActivity : AppCompatActivity() {
                     lastName = surnameText.text.toString(),
                     gender = gender.checkedRadioButtonId == R.id.maleButton,
                     age = date,
+                    activityRatio = 1.0,
                     weight = heightText.text.toString().toInt(),
                     height = heightText.text.toString().toInt()
                 )
