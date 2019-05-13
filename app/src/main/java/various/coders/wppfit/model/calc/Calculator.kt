@@ -14,7 +14,7 @@ companion object{
     private const val CALORIES_WEIGHT_RATIO = 8.58
     fun getCaloricIntake(user: User):Double{
         val now = LocalDate.now().year
-        return (user.activityRatio
+        return (user.activity.ratio
                 *when(user.gender){
                     true -> 13.397*user.weight + 4.799*user.height - 5.677*(now - user.age.year) + 88.362
                     false -> 9.247*user.weight + 3.098*user.height - 4.330*(now - user.age.year) + 447.593

@@ -6,11 +6,14 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import various.coders.wppfit.model.AppViewModel
 import various.coders.wppfit.model.database.entities.User
+import various.coders.wppfit.model.database.types.ActivityLevel
 import java.lang.NumberFormatException
 import java.util.*
 
@@ -20,6 +23,7 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var model: AppViewModel
     //date selected in dateText
     private lateinit var date: Date
+    private lateinit var spinner: Spinner
     //to check if there's a user
     private var user = -1
 
@@ -53,6 +57,18 @@ class EditProfileActivity : AppCompatActivity() {
         val prefs = getPreferences(Context.MODE_PRIVATE)
         user = prefs.getInt("uid", -1)
 
+
+
+        spinner = findViewById(R.id.activitySpinner)
+    /*    ArrayAdapter.createFromResource(
+            this,
+            R.array.activity_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }*/
+
         //if there is set user in prefs
         if (user != -1) {
             //get it from the database
@@ -70,7 +86,10 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun verify() {
         //todo make this clearer
-        if (nameText.text.isBlank() || surnameText.text.isBlank() || !::date.isInitialized || weightText.text.isBlank() || heightText.text.isBlank()) {
+        if (nameText.text.isBlank() || surnameText.text.isBlank()
+            || !::date.isInitialized || weightText.text.isBlank()
+            || heightText.text.isBlank()) {
+
             Toast.makeText(this, "Fill up every box", Toast.LENGTH_LONG).show()
         } else {
             val u = try {
@@ -80,7 +99,7 @@ class EditProfileActivity : AppCompatActivity() {
                     lastName = surnameText.text.toString(),
                     gender = gender.checkedRadioButtonId == R.id.maleButton,
                     age = date,
-                    activityRatio = 1.0,
+                    activity = ActivityLevel.NONE,
                     weight = heightText.text.toString().toInt(),
                     height = heightText.text.toString().toInt()
                 )

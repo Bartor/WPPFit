@@ -1,7 +1,9 @@
 package various.coders.wppfit.model.database.entities
 
 import android.arch.persistence.room.*
+import various.coders.wppfit.model.database.converters.ActivityLevelConverter
 import various.coders.wppfit.model.database.converters.TimeConverter
+import various.coders.wppfit.model.database.types.ActivityLevel
 import java.io.Serializable
 import java.util.*
 
@@ -18,7 +20,11 @@ data class User(
     @ColumnInfo(name = "age")
     @TypeConverters(TimeConverter::class)
     val age: Date,
-    @ColumnInfo(name = "activityRatio") val activityRatio: Double,
+
+    @ColumnInfo(name = "activity_level")
+    @TypeConverters(ActivityLevelConverter::class)
+    val activity: ActivityLevel,
+
     @ColumnInfo(name = "weight") val weight: Int,
     @ColumnInfo(name = "height") val height: Int
 ): Serializable
