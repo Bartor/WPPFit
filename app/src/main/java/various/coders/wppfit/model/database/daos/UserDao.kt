@@ -8,6 +8,9 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE uid = :id LIMIT 1")
     fun getUser(id: Int): List<User>
 
+    @Query("SELECT MAX(uid) FROM user")
+    fun getNewestUser(): List<Int>
+
     @Update
     fun updateUser(user: User)
 

@@ -1,6 +1,9 @@
 package various.coders.wppfit
 
+import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.Intent
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -16,6 +19,8 @@ import various.coders.wppfit.fragments.AddMealFragment
 import various.coders.wppfit.fragments.HomeScreenFragment
 import various.coders.wppfit.fragments.UserProfileFragment
 import various.coders.wppfit.model.AppViewModel
+
+const val EDIT_PROFILE = 0
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var currentFragment: Fragment
@@ -41,7 +46,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //select the "home" menu item
         nav_view.menu.getItem(0).setChecked(true)
 
+
         nav_view.setNavigationItemSelectedListener(this)
+
+        if (getPreferences(Context.MODE_PRIVATE).getInt("uid", -1) == -1) {
+            val intent = Intent(this, EditProfileActivity::class.java)
+            startActivityForResult(intent, EDIT_PROFILE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            EDIT_PROFILE -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        //todo update user
+                    }
+                    Activity.RESULT_FIRST_USER -> {
+                        //todo start using new user
+                    }
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {

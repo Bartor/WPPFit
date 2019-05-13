@@ -2,6 +2,7 @@ package various.coders.wppfit.model.database.entities
 
 import android.arch.persistence.room.*
 import various.coders.wppfit.model.database.converters.TimeConverter
+import java.io.Serializable
 import java.util.*
 
 @Entity(
@@ -21,4 +22,4 @@ data class User(
 
     @ColumnInfo(name = "weight") val weight: Int,
     @ColumnInfo(name = "height") val height: Int
-)
+): Serializable
