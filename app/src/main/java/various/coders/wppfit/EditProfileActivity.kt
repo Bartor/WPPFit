@@ -58,16 +58,10 @@ class EditProfileActivity : AppCompatActivity() {
         user = prefs.getInt("uid", -1)
 
 
-
+        // Setting up ActivityLevel spinner
         spinner = findViewById(R.id.activitySpinner)
-    /*    ArrayAdapter.createFromResource(
-            this,
-            R.array.activity_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }*/
+        spinner.adapter =
+            ArrayAdapter<ActivityLevel>(this, android.R.layout.simple_spinner_item, ActivityLevel.values())
 
         //if there is set user in prefs
         if (user != -1) {
@@ -88,7 +82,8 @@ class EditProfileActivity : AppCompatActivity() {
         //todo make this clearer
         if (nameText.text.isBlank() || surnameText.text.isBlank()
             || !::date.isInitialized || weightText.text.isBlank()
-            || heightText.text.isBlank()) {
+            || heightText.text.isBlank()
+        ) {
 
             Toast.makeText(this, "Fill up every box", Toast.LENGTH_LONG).show()
         } else {
@@ -99,7 +94,7 @@ class EditProfileActivity : AppCompatActivity() {
                     lastName = surnameText.text.toString(),
                     gender = gender.checkedRadioButtonId == R.id.maleButton,
                     age = date,
-                    activity = ActivityLevel.NONE,
+                    activity = activitySpinner.selectedItem as ActivityLevel,
                     weight = heightText.text.toString().toInt(),
                     height = heightText.text.toString().toInt()
                 )
