@@ -7,7 +7,6 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_edit_profile.*
@@ -51,7 +50,7 @@ class EditProfileActivity : AppCompatActivity() {
             picker.show()
         }
 
-        acceptButton.setOnClickListener { verify() }
+        acceptButton.setOnClickListener { apply() }
 
         //user is read from shared prefs
         val prefs = getPreferences(Context.MODE_PRIVATE)
@@ -78,42 +77,46 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun verify() {
-        //todo make this clearer
-        if (nameText.text.isBlank() || surnameText.text.isBlank()
-            || !::date.isInitialized || weightText.text.isBlank()
-            || heightText.text.isBlank()
-        ) {
+    private fun verify(): Boolean {
+        if (nameText.text.isBlank() || surnameText.text.isBlank() || !::date.isInitialized || weightText.text.isBlank() || heightText.text.isBlank()) return false
+        val w = try {
+            weightText.text.toString().toInt()
+        } catch (e: NumberFormatException) {
+            return false
+        }
+        val h = try {
+            heightText.text.toString().toInt()
+        } catch (e: NumberFormatException) {
+            return false
+        }
+        //age > 13, 30 < weight < 300 (kg), 50 < height < 250 (cm)
+        return date.time - Date().time > 409968000000L && w > 30 && w < 300 && h > 50 && h < 250
+    }
 
+    private fun apply() {
+        if (!verify()) {
             Toast.makeText(this, "Fill up every box", Toast.LENGTH_LONG).show()
         } else {
-            val u = try {
-                User(
-                    uid = if (user != -1) model.currentUser.uid else 0,
-                    firstName = nameText.text.toString(),
-                    lastName = surnameText.text.toString(),
-                    gender = gender.checkedRadioButtonId == R.id.maleButton,
-                    age = date,
-                    activity = activitySpinner.selectedItem as ActivityLevel,
-                    weight = heightText.text.toString().toInt(),
-                    height = heightText.text.toString().toInt()
-                )
-            } catch (e: NumberFormatException) {
-                Toast.makeText(this, "Wrong number", Toast.LENGTH_LONG).show()
-                null
+            val u = User(
+                uid = if (user != -1) model.currentUser.uid else 0,
+                firstName = nameText.text.toString(),
+                lastName = surnameText.text.toString(),
+                gender = gender.checkedRadioButtonId == R.id.maleButton,
+                age = date,
+                activity = activitySpinner.selectedItem as ActivityLevel,
+                weight = heightText.text.toString().toInt(),
+                height = heightText.text.toString().toInt()
+            )
+            if (user != -1) {
+                model.updateUser(u)
+                //ok is user was edited
+                setResult(Activity.RESULT_OK)
+            } else {
+                model.insertUser(u)
+                //first user+0 if it was inserted
+                setResult(Activity.RESULT_FIRST_USER)
             }
-            if (u != null) {
-                if (user != -1) {
-                    model.updateUser(u)
-                    //ok is user was edited
-                    setResult(Activity.RESULT_OK)
-                } else {
-                    model.insertUser(u)
-                    //first user+0 if it was inserted
-                    setResult(Activity.RESULT_FIRST_USER)
-                }
-                finish()
-            }
+            finish()
         }
     }
 }
