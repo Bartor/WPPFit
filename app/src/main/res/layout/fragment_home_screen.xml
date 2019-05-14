@@ -23,6 +23,15 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline" android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
                 app:layout_constraintStart_toStartOf="parent" android:textStyle="bold"/>
+        <TextView
+                android:text="@string/home_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/goalText"
+                app:layout_constraintTop_toTopOf="@+id/topBarGuideline"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" android:layout_margin="8dp"/>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
@@ -48,14 +57,5 @@
                     app:layout_constraintTop_toBottomOf="@+id/welcomeText"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" android:textAlignment="center"/>
         </LinearLayout>
-        <TextView
-                android:text="@string/home_goal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/goalText"
-                app:layout_constraintTop_toTopOf="@+id/topBarGuideline"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" android:layout_margin="8dp"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

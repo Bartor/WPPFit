@@ -26,8 +26,8 @@
     <string name="new_profile">New profile</string>
 
     <string name="home_welcome">Hello, %1$s!</string>
-    <string name="home_subtitle">Today\'s calories eaten:\n%1$.1f</string>
-    <string name="home_subtitle2">Today\'s calories burnt:\n%1$.1f</string>
+    <string name="home_subtitle">Calories intake today:\n%1$.1f</string>
+    <string name="home_subtitle2">Calories burnt today:\n%1$.1f</string>
     <string name="home_goal">Goal calories: %1$.1f \/ %2$.1f</string>
 
 
