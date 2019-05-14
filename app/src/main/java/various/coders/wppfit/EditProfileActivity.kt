@@ -50,10 +50,8 @@ class EditProfileActivity : AppCompatActivity() {
 
         acceptButton.setOnClickListener { apply() }
 
-        //user is read from shared prefs
-        val prefs = getPreferences(Context.MODE_PRIVATE)
-        user = prefs.getInt("uid", -1)
-
+        //user is read from intent
+        user = intent.getIntExtra("uid", -1)
 
         // Setting up ActivityLevel spinner
         activitySpinner.adapter =

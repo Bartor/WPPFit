@@ -56,9 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivityForResult(intent, EDIT_PROFILE)
         } else { //otherwise we set current user to the uid
-            viewModel.getMeals(uid, Date(System.currentTimeMillis() - 86400000))
-            viewModel.getExercises(uid, Date(System.currentTimeMillis() - 86400000))
-            viewModel.setCurrentUser(uid)
+            updateModel(uid)
             viewModel.currentUser.observe(this, Observer {
                 currentFragment = HomeScreenFragment()
                 supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, currentFragment).commit()
@@ -71,25 +69,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             EDIT_PROFILE -> {
                 when (resultCode) {
                     Activity.RESULT_OK -> {
-                        //info about updating the user
                         Toast.makeText(this, "User updated", Toast.LENGTH_LONG).show()
                     }
                     Activity.RESULT_FIRST_USER -> {
-                        //we try to get the newest id (newest user - just created)
                         viewModel.getNewestUser().observe(this, Observer {
                             if (it != null) {
-                                //we set the current user to it
-                                viewModel.setCurrentUser(it.uid)
-                                //and we updated prefs
-                                with(getPreferences(Context.MODE_PRIVATE).edit()) {
-                                    putInt("uid", it.uid)
-                                    apply()
-                                }
+                                updateModel(it.uid)
                             }
                         })
                     }
                 }
             }
+        }
+    }
+
+    fun updateModel(uid: Int) {
+        viewModel.setCurrentUser(uid)
+        viewModel.getExercises(uid, Date(System.currentTimeMillis() - 86400000))
+        viewModel.getMeals(uid, Date(System.currentTimeMillis() - 86400000))
+
+        with(getPreferences(Context.MODE_PRIVATE).edit()) {
+            putInt("uid", uid)
+            apply()
         }
     }
 

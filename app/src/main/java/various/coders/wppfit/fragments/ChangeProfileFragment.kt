@@ -2,6 +2,7 @@ package various.coders.wppfit.fragments
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -10,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_profile_list.*
+import various.coders.wppfit.EditProfileActivity
+import various.coders.wppfit.MainActivity
 import various.coders.wppfit.R
 import various.coders.wppfit.fragments.adapters.ProfileRecyclerViewAdapter
 import various.coders.wppfit.model.AppViewModel
@@ -49,7 +52,6 @@ class ChangeProfileFragment : Fragment(), OnListFragmentInteractionListener {
                     )
                 )
             }
-            println(l)
             with(list) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
@@ -62,7 +64,12 @@ class ChangeProfileFragment : Fragment(), OnListFragmentInteractionListener {
     }
 
     override fun onListFragmentInteraction(item: User) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (item.uid > 0) {
+            (activity as MainActivity).updateModel(item.uid)
+        } else {
+            val intent = Intent(activity, EditProfileActivity::class.java)
+            activity.startActivityForResult(intent, various.coders.wppfit.EDIT_PROFILE)
+        }
     }
 }
 
