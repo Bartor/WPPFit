@@ -62,15 +62,20 @@ class EditProfileActivity : AppCompatActivity() {
         //if there is set user in prefs
         if (user != -1) {
             //get it from the database
+            model.currentUser.observe(this, android.arch.lifecycle.Observer {
+                if (it != null) {
+                    nameText.setText(it.firstName)
+                    surnameText.setText(it.lastName)
+                    dateText.setText(it.age.toString())
+                    date = it.age
+                    weightText.setText(it.weight)
+                    heightText.setText(it.height)
+                    gender.check(if (it.gender) R.id.maleButton else R.id.femaleButton)
+                } else {
+                    Toast.makeText(this, "Currently set user was wrong", Toast.LENGTH_LONG).show()
+                }
+            })
             model.setCurrentUser(user)
-
-            nameText.setText(model.currentUser.firstName)
-            surnameText.setText(model.currentUser.lastName)
-            dateText.setText(model.currentUser.age.toString())
-            date = model.currentUser.age
-            weightText.setText(model.currentUser.weight)
-            heightText.setText(model.currentUser.height)
-            gender.check(if (model.currentUser.gender) R.id.maleButton else R.id.femaleButton)
         }
     }
 
@@ -100,7 +105,7 @@ class EditProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "Fill up every box", Toast.LENGTH_LONG).show()
         } else {
             val u = User(
-                uid = if (user != -1) model.currentUser.uid else 0,
+                uid = if (user != -1) model.currentUser.value!!.uid else 0,
                 firstName = nameText.text.toString(),
                 lastName = surnameText.text.toString(),
                 gender = gender.checkedRadioButtonId == R.id.maleButton,

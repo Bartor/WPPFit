@@ -1,6 +1,7 @@
 package various.coders.wppfit
 
 import android.app.Activity
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
@@ -12,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import various.coders.wppfit.fragments.AddExerciseFragment
@@ -46,12 +48,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //select the "home" menu item
         nav_view.menu.getItem(0).setChecked(true)
 
-
         nav_view.setNavigationItemSelectedListener(this)
 
-        if (getPreferences(Context.MODE_PRIVATE).getInt("uid", -1) == -1) {
+        val uid = getPreferences(Context.MODE_PRIVATE).getInt("uid", -1)
+        //if there is no set user in prefs, we start an edit profile activity to create one
+        if (uid == -1) {
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivityForResult(intent, EDIT_PROFILE)
+        } else { //otherwise we set current user to the uid
+            viewModel.setCurrentUser(uid)
         }
     }
 
@@ -60,10 +65,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             EDIT_PROFILE -> {
                 when (resultCode) {
                     Activity.RESULT_OK -> {
-                        //todo update user
+                        //info about updating the user
+                        Toast.makeText(this, "User updated", Toast.LENGTH_LONG).show()
                     }
                     Activity.RESULT_FIRST_USER -> {
-                        //todo start using new user
+                        //we try to get the newest id (newest user - just created)
+                        viewModel.getNewestUser().observe(this, Observer {
+                            if (it != null) {
+                                //we set the current user to it
+                                viewModel.setCurrentUser(it.uid)
+                                //and we updated prefs
+                                with(getPreferences(Context.MODE_PRIVATE).edit()) {
+                                    putInt("uid", it.uid)
+                                    apply()
+                                }
+                            }
+                        })
                     }
                 }
             }
@@ -79,15 +96,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)

@@ -1,12 +1,14 @@
 package various.coders.wppfit.model
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.os.AsyncTask
 import dagger.internal.DaggerCollections
 import kotlinx.coroutines.*
 import various.coders.wppfit.model.database.AppDatabase
+import various.coders.wppfit.model.database.entities.Exercise
 import various.coders.wppfit.model.database.entities.Meal
 import various.coders.wppfit.model.database.entities.User
 import various.coders.wppfit.model.di.DBModule
@@ -18,8 +20,11 @@ class AppViewModel: ViewModel() {
     @Inject lateinit var dbModule: DBModule
     private lateinit var db: AppDatabase
 
-    lateinit var currentUser: User
-    lateinit var meals: List<Meal>
+    lateinit var currentUser: LiveData<User>
+        private set
+    lateinit var meals: LiveData<List<Meal>>
+        private set
+    lateinit var exercises: LiveData<List<Exercise>>
         private set
 
     init {
@@ -30,12 +35,12 @@ class AppViewModel: ViewModel() {
         db = dbModule.provideDb(context)
     }
 
+    fun getNewestUser(): LiveData<User> {
+        return db.userDao().getNewestUser()
+    }
+
     fun setCurrentUser(id: Int) {
-        GlobalScope.launch {
-            val user = db.userDao().getUser(id)
-            if (user.isNotEmpty()) currentUser = user[0]
-            else throw Exception("The user doesn't exist")
-        }
+        currentUser = db.userDao().getUser(id)
     }
 
     fun insertUser(user: User) {
