@@ -112,7 +112,7 @@ class EditProfileActivity : AppCompatActivity() {
                 age = date,
                 activity = activitySpinner.selectedItem as ActivityLevel,
                 weight = heightText.text.toString().toInt(),
-                height = heightText.text.toString().toInt()
+                height = weightText.text.toString().toInt()
             )
             if (user != -1) {
                 model.updateUser(u)
