@@ -38,13 +38,11 @@ class EditProfileActivity : AppCompatActivity() {
         dateText.setOnClickListener {
             val picker = DatePickerDialog(this).apply {
                 setOnDateSetListener { _, year, month, dayOfMonth ->
-                    date = Date().also {
+                    this@EditProfileActivity.updateDate(Date().also {
                         it.year = year
                         it.month = month
                         it.date = dayOfMonth
-                    }
-                    //todo fix this
-                    //dateText.setText(date.toString())
+                    })
                 }
             }
             picker.show()
@@ -58,8 +56,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
         // Setting up ActivityLevel spinner
-        spinner = findViewById(R.id.activitySpinner)
-        spinner.adapter =
+        activitySpinner.adapter =
             ArrayAdapter<ActivityLevel>(this, android.R.layout.simple_spinner_item, ActivityLevel.values())
 
         //if there is set user in prefs
@@ -75,6 +72,11 @@ class EditProfileActivity : AppCompatActivity() {
             heightText.setText(model.currentUser.height)
             gender.check(if (model.currentUser.gender) R.id.maleButton else R.id.femaleButton)
         }
+    }
+
+    private fun updateDate(date: Date) {
+        this.date = date
+        dateText.setText("${date.date}/${date.month}/${date.year}")
     }
 
     private fun verify(): Boolean {
