@@ -1,15 +1,16 @@
 package various.coders.wppfit.model.database.daos
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
 import various.coders.wppfit.model.database.entities.User
 
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user WHERE uid = :id LIMIT 1")
-    fun getUser(id: Int): List<User>
+    fun getUser(id: Int): LiveData<User>
 
-    @Query("SELECT MAX(uid) FROM user")
-    fun getNewestUser(): List<Int>
+    @Query("SELECT * FROM user WHERE uid = (SELECT MAX(uid) FROM user)")
+    fun getNewestUser(): LiveData<User>
 
     @Update
     fun updateUser(user: User)
