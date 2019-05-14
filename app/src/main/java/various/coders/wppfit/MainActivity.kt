@@ -21,6 +21,7 @@ import various.coders.wppfit.fragments.AddMealFragment
 import various.coders.wppfit.fragments.HomeScreenFragment
 import various.coders.wppfit.fragments.UserProfileFragment
 import various.coders.wppfit.model.AppViewModel
+import java.util.*
 
 const val EDIT_PROFILE = 0
 
@@ -42,12 +43,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel = ViewModelProviders.of(this).get(AppViewModel::class.java)
         viewModel.getDb(this)
 
-        currentFragment = HomeScreenFragment()
-        supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, currentFragment).commit()
-
         //select the "home" menu item
         nav_view.menu.getItem(0).setChecked(true)
-
         nav_view.setNavigationItemSelectedListener(this)
 
         val uid = getPreferences(Context.MODE_PRIVATE).getInt("uid", -1)
@@ -56,7 +53,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivityForResult(intent, EDIT_PROFILE)
         } else { //otherwise we set current user to the uid
+            viewModel.getMeals(uid, Date(System.currentTimeMillis() - 86400000))
+            viewModel.getExercises(uid, Date(System.currentTimeMillis() - 86400000))
             viewModel.setCurrentUser(uid)
+            viewModel.currentUser.observe(this, Observer {
+                currentFragment = HomeScreenFragment()
+                supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, currentFragment).commit()
+            })
         }
     }
 
@@ -110,6 +113,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_home -> {
+                println(viewModel.currentUser.value)
+                println(viewModel.meals.value)
                 if (currentFragment !is HomeScreenFragment) {
                     currentFragment = HomeScreenFragment()
                     supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit()

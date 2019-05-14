@@ -1,11 +1,8 @@
 package various.coders.wppfit.model
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.content.Context
-import android.os.AsyncTask
-import dagger.internal.DaggerCollections
 import kotlinx.coroutines.*
 import various.coders.wppfit.model.database.AppDatabase
 import various.coders.wppfit.model.database.entities.Exercise
@@ -13,7 +10,7 @@ import various.coders.wppfit.model.database.entities.Meal
 import various.coders.wppfit.model.database.entities.User
 import various.coders.wppfit.model.di.DBModule
 import various.coders.wppfit.model.di.DaggerDBComponent
-import java.lang.Exception
+import java.util.*
 import javax.inject.Inject
 
 class AppViewModel: ViewModel() {
@@ -31,8 +28,19 @@ class AppViewModel: ViewModel() {
         DaggerDBComponent.builder().build().inject(this)
     }
 
+    fun getMeals(user: Int, date: Date) {
+        meals = db.mealDao().getFromDate(user, date)
+    }
+
+    fun getExercises(user: Int, date: Date) {
+        exercises = db.exerciseDao().getFromDate(user, date)
+    }
+
     fun getDb(context: Context) {
         db = dbModule.provideDb(context)
+//        eliminate null references
+//        meals = db.mealDao().getFromDate(-1, Date())
+//        exercises = db.exerciseDao().getFromDate(-1, Date())
     }
 
     fun getNewestUser(): LiveData<User> {
@@ -41,6 +49,12 @@ class AppViewModel: ViewModel() {
 
     fun setCurrentUser(id: Int) {
         currentUser = db.userDao().getUser(id)
+    }
+
+    fun insertMeal(meal: Meal) {
+        GlobalScope.launch {
+            db.mealDao().insertMeal(meal)
+        }
     }
 
     fun insertUser(user: User) {
