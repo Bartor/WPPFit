@@ -12,6 +12,9 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE uid = (SELECT MAX(uid) FROM user)")
     fun getNewestUser(): LiveData<User>
 
+    @Query("SELECT * FROM user")
+    fun getAllUsers(): LiveData<List<User>>
+
     @Update
     fun updateUser(user: User)
 

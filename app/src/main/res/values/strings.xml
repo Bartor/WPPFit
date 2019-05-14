@@ -11,6 +11,10 @@
     <string name="nav_add_meal">Add a meal</string>
     <string name="nav_add_exercise">Add an exercise</string>
 
+    <string name="nav_settings_category">Settings</string>
+
+    <string name="nav_change_profile">Change profile</string>
+
     <string name="edit_profile_header">Edit your profile</string>
     <string name="name">name</string>
     <string name="surname">surname</string>
@@ -18,6 +22,8 @@
     <string name="height">height</string>
     <string name="weight">weight</string>
     <string name="accept">accept</string>
+
+    <string name="new_profile">New profile</string>
 
     <string name="home_welcome">Hello, %1$s!</string>
     <string name="home_subtitle">Today\'s calories eaten:\n%1$.1f</string>

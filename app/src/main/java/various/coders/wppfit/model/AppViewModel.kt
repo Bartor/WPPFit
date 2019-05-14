@@ -47,6 +47,10 @@ class AppViewModel: ViewModel() {
         return db.userDao().getNewestUser()
     }
 
+    fun getAllUsers(): LiveData<List<User>> {
+        return db.userDao().getAllUsers()
+    }
+
     fun setCurrentUser(id: Int) {
         currentUser = db.userDao().getUser(id)
     }

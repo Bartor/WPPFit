@@ -21,5 +21,10 @@
                 android:icon="@drawable/nav_exercise"
                 android:title="@string/nav_add_exercise"/>
     </group>
-
+    <item android:title="@string/nav_settings_category">
+        <menu>
+            <item android:title="@string/nav_change_profile" android:id="@+id/nav_change_profile"
+                  android:icon="@drawable/nav_change_profile"/>
+        </menu>
+    </item>
 </menu>

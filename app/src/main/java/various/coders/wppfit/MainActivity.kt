@@ -16,10 +16,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import various.coders.wppfit.fragments.AddExerciseFragment
-import various.coders.wppfit.fragments.AddMealFragment
-import various.coders.wppfit.fragments.HomeScreenFragment
-import various.coders.wppfit.fragments.UserProfileFragment
+import various.coders.wppfit.fragments.*
 import various.coders.wppfit.model.AppViewModel
 import java.util.*
 
@@ -141,6 +138,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_profile -> {
                 if (currentFragment !is UserProfileFragment) {
                     currentFragment = UserProfileFragment()
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit()
+                }
+            }
+            R.id.nav_change_profile -> {
+                if (currentFragment !is ChangeProfileFragment) {
+                    currentFragment = ChangeProfileFragment()
                     supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit()
                 }
             }
