@@ -47,7 +47,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.menu.getItem(0).setChecked(true)
         nav_view.setNavigationItemSelectedListener(this)
 
-        val uid = getPreferences(Context.MODE_PRIVATE).getInt("uid", -1)
+        val prefs = getPreferences(Context.MODE_PRIVATE)
+        viewModel.targetDays = prefs.getInt("targetDays", -1)
+        viewModel.targetWeight = prefs.getFloat("targetWeight", -1f)
+
+        val uid = prefs.getInt("uid", -1)
         //if there is no set user in prefs, we start an edit profile activity to create one
         if (uid == -1) {
             val intent = Intent(this, EditProfileActivity::class.java)

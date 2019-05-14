@@ -17,6 +17,9 @@ class AppViewModel: ViewModel() {
     @Inject lateinit var dbModule: DBModule
     private lateinit var db: AppDatabase
 
+    var targetDays = -1
+    var targetWeight = -1f
+
     lateinit var currentUser: LiveData<User>
         private set
     lateinit var meals: LiveData<List<Meal>>
