@@ -18,7 +18,7 @@ class AppViewModel: ViewModel() {
     private lateinit var db: AppDatabase
 
     var targetDays = -1
-    var targetWeight = -1f
+    var targetWeight = -1.0
 
     lateinit var currentUser: LiveData<User>
         private set
@@ -41,9 +41,6 @@ class AppViewModel: ViewModel() {
 
     fun getDb(context: Context) {
         db = dbModule.provideDb(context)
-//        eliminate null references
-//        meals = db.mealDao().getFromDate(-1, Date())
-//        exercises = db.exerciseDao().getFromDate(-1, Date())
     }
 
     fun getNewestUser(): LiveData<User> {

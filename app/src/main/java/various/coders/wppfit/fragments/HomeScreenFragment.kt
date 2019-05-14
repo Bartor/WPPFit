@@ -10,12 +10,15 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_home_screen.*
 import various.coders.wppfit.R
 import various.coders.wppfit.model.AppViewModel
+import various.coders.wppfit.model.calc.CaloriesCalc
 import various.coders.wppfit.model.database.entities.Meal
 import java.util.*
 
 
 class HomeScreenFragment : Fragment() {
     private lateinit var viewModel: AppViewModel
+    private var eSum = 0.0
+    private var mSum = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,16 +33,15 @@ class HomeScreenFragment : Fragment() {
         viewModel = ViewModelProviders.of(activity!!).get(AppViewModel::class.java)
 
         viewModel.currentUser.observe(this, Observer {
-            println(it)
             welcomeText.text = getString(R.string.home_welcome, it!!.firstName)
         })
         viewModel.meals.observe(this, Observer {
-            println(it)
-            subtitle.text = getString(R.string.home_subtitle, it!!.sumByDouble { it.calories.toDouble() })
+            mSum = it!!.sumByDouble { it.calories.toDouble() }
+            updateText()
         })
         viewModel.exercises.observe(this, Observer {
-            println(it)
-            subtitle2.text = getString(R.string.home_subtitle2, it!!.sumByDouble { it.calories.toDouble() })
+            eSum = it!!.sumByDouble { it.calories.toDouble() }
+            updateText()
         })
 
         //tests adding meals
@@ -58,5 +60,19 @@ class HomeScreenFragment : Fragment() {
                 )
             )
         }
+    }
+
+    private fun updateText() {
+        subtitle.text = getString(R.string.home_subtitle, mSum)
+        subtitle2.text = getString(R.string.home_subtitle2, eSum)
+        goalText.text = getString(
+            R.string.home_goal,
+            mSum - eSum,
+            CaloriesCalc.getCaloricIntake(viewModel.currentUser.value!!) + CaloriesCalc.getCaloricOffset(
+                viewModel.currentUser.value!!,
+                viewModel.targetDays,
+                viewModel.targetWeight
+            )
+        )
     }
 }

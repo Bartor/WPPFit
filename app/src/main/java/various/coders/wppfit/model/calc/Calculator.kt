@@ -23,6 +23,7 @@ class CaloriesCalc {
         }
 
         fun getCaloricOffset(user: User, daysToTarget: Int, targetWeight: Double): Double {
+            if (daysToTarget < 0 || targetWeight < 0) return 0.0
             val weightDiff = targetWeight - user.weight
             val caloriesDiff = KG_CALORIES * weightDiff
             return caloriesDiff / daysToTarget

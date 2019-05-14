@@ -48,8 +48,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         val prefs = getPreferences(Context.MODE_PRIVATE)
+
+        //negative values indicate no desired change
         viewModel.targetDays = prefs.getInt("targetDays", -1)
-        viewModel.targetWeight = prefs.getFloat("targetWeight", -1f)
+        viewModel.targetWeight = prefs.getFloat("targetWeight", -1f).toDouble()
 
         val uid = prefs.getInt("uid", -1)
         //if there is no set user in prefs, we start an edit profile activity to create one
