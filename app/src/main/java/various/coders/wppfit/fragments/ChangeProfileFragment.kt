@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_profile_list.*
 import various.coders.wppfit.R
+import various.coders.wppfit.fragments.adapters.ProfileRecyclerViewAdapter
 import various.coders.wppfit.model.AppViewModel
 import various.coders.wppfit.model.database.entities.User
 import various.coders.wppfit.model.database.types.ActivityLevel
@@ -54,7 +55,8 @@ class ChangeProfileFragment : Fragment(), OnListFragmentInteractionListener {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = ProfileRecyclerViewAdapter(l, this@ChangeProfileFragment)
+                adapter =
+                    ProfileRecyclerViewAdapter(l, this@ChangeProfileFragment)
             }
         })
     }

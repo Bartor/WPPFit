@@ -1,4 +1,4 @@
-package various.coders.wppfit.fragments
+package various.coders.wppfit.fragments.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.widget.TextView
 import various.coders.wppfit.R
 
 import kotlinx.android.synthetic.main.profile_item.view.*
+import various.coders.wppfit.fragments.OnListFragmentInteractionListener
 import various.coders.wppfit.model.database.entities.User
 
 class ProfileRecyclerViewAdapter(
