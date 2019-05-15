@@ -32,7 +32,7 @@ class AddMealFragment : Fragment() {
         viewModel = ViewModelProviders.of(activity!!).get(AppViewModel::class.java)
 
         //test query
-        api.foodQuery("green apple", "my id here lol", "my key here lol").enqueue(object :
+        api.foodQuery("green apple", getString(R.string.foodApiId), getString(R.string.foodApiKey)).enqueue(object :
             Callback<FoodResult> {
             override fun onFailure(call: Call<FoodResult>?, t: Throwable?) {
                 println(t?.localizedMessage)
