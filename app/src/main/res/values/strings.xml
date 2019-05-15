@@ -31,6 +31,14 @@
     <string name="home_goal">Goal calories: %1$.1f \/ %2$.1f</string>
 
 
+
+
+
+    <string name="starting_time">Starting time</string>
+    <string name="ending_time">Ending time</string>
+    <string name="starting_date">Starting date</string>
+    <string name="ending_date">Ending date</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

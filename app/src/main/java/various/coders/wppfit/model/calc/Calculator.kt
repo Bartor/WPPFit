@@ -29,16 +29,19 @@ class CaloriesCalc {
             return caloriesDiff / daysToTarget
         }
 
-        fun getCalLossFromActivity(exercise: Exercise, user: User): Double {
+        fun getCalLossFromActivity(exercise: Exercise, user: User): Int {
             val duration = exercise.endTime.time - exercise.startTime.time
             val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(duration)
             return (
                     durationMinutes
                             * user.weight
                             * exercise.type.calRatio
-                    )
+                    ).toInt()
         }
+        fun getMacroNutrientsRatio(){}
+
     }
+
 
 
 }
