@@ -67,6 +67,12 @@ class AppViewModel: ViewModel() {
         }
     }
 
+    fun insertExercise(exercise: Exercise) {
+        GlobalScope.launch {
+            db.exerciseDao().insertExercise(exercise)
+        }
+    }
+
     fun updateUser(user: User) {
         GlobalScope.launch {
             db.userDao().updateUser(user)
