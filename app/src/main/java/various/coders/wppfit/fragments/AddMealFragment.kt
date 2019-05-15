@@ -24,6 +24,8 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
     private lateinit var viewModel: AppViewModel
     private val api = FoodAPIClient.getService()
 
+    private lateinit var selectedFood: FoodMeasure
+
     private lateinit var apiId: String
     private lateinit var apiKey: String
 
@@ -40,6 +42,8 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        unit.isEnabled = false
 
         with(recycler) {
             layoutManager = LinearLayoutManager(context)
@@ -69,11 +73,16 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
         viewModel = ViewModelProviders.of(activity!!).get(AppViewModel::class.java)
     }
 
-    override fun onMealInteraction(meal: FoodMeasure) {
-        println(meal)
+    override fun onMealInteraction(food: FoodMeasure) {
+        //todo allow search for the net weight here
+        selectedFood = food
+        foodNumber.isEnabled = true
+        unit.isEnabled = true
+        unit.isEnabled = true
+        addButton.isEnabled = true
     }
 }
 
 interface OnMealInteractionInterface {
-    fun onMealInteraction(meal: FoodMeasure)
+    fun onMealInteraction(food: FoodMeasure)
 }
