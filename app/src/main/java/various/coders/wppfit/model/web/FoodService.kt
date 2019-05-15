@@ -2,8 +2,8 @@ package various.coders.wppfit.model.web
 
 import retrofit2.Call
 import retrofit2.http.*
-import various.coders.wppfit.model.web.POJO.FoodResult
-import various.coders.wppfit.model.web.POJO.NutrientsBody
+import various.coders.wppfit.model.web.pojo.FoodResult
+import various.coders.wppfit.model.web.pojo.NutrientsBody
 
 interface FoodService {
     @GET("/api/food-database/parser")

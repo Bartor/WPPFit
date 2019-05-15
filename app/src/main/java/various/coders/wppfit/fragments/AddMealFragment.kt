@@ -13,8 +13,7 @@ import retrofit2.Response
 import various.coders.wppfit.R
 import various.coders.wppfit.model.AppViewModel
 import various.coders.wppfit.model.web.FoodAPIClient
-import various.coders.wppfit.model.web.FoodService
-import various.coders.wppfit.model.web.POJO.FoodResult
+import various.coders.wppfit.model.web.pojo.FoodResult
 
 class AddMealFragment : Fragment() {
     private lateinit var viewModel: AppViewModel
