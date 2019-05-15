@@ -1,4 +1,4 @@
-package various.coders.wppfit.model.web.pojo
+package various.coders.wppfit.model.web.schema
 
 import com.google.gson.annotations.SerializedName
 
