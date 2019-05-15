@@ -9,7 +9,7 @@ data class FoodResult(
 
 data class FoodMeasure(
     val food: Food,
-    val measure: Measure
+    val measures: List<Measure>
 )
 
 data class Food(
