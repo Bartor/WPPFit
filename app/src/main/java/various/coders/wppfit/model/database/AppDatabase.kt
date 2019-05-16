@@ -13,7 +13,7 @@ import various.coders.wppfit.model.database.entities.Exercise
 import various.coders.wppfit.model.database.entities.Meal
 import various.coders.wppfit.model.database.entities.User
 
-@Database(entities = [User::class, Meal::class, Exercise::class], version = 2)
+@Database(entities = [User::class, Meal::class, Exercise::class], version = 3)
 @TypeConverters(TimeConverter::class, ExerciseTypeConverter::class, ActivityLevelConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao() : UserDao

@@ -5,6 +5,7 @@ import various.coders.wppfit.model.database.entities.User
 import java.time.LocalDate
 import android.R.attr.duration
 import various.coders.wppfit.model.database.types.ExerciseType
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -29,19 +30,14 @@ class CaloriesCalc {
             return caloriesDiff / daysToTarget
         }
 
-        fun getCalLossFromActivity(exercise: Exercise, user: User): Int {
-            val duration = exercise.endTime.time - exercise.startTime.time
+        fun getCalLossFromActivity(start: Date, end: Date, type: ExerciseType, user: User): Float {
+            val duration = end.time - start.time
             val durationMinutes = TimeUnit.MILLISECONDS.toMinutes(duration)
-            return (
-                    durationMinutes
-                            * user.weight
-                            * exercise.type.calRatio
-                    ).toInt()
+            return (durationMinutes * user.weight * type.calRatio).toFloat()
         }
-        fun getMacroNutrientsRatio(){}
 
+        fun getMacroNutrientsRatio() {}
     }
-
 
 
 }

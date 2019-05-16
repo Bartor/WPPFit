@@ -45,41 +45,177 @@
                 android:background="@drawable/side_nav_bar" android:textColor="@android:color/background_light"
                 style="@style/Widget.AppCompat.Button"/>
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-            tools:listitem="@layout/food_item"
-            android:layout_width="0dp"
-            android:layout_height="0dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-            android:paddingStart="22dp" android:paddingEnd="22dp"
-            android:layout_marginStart="8dp" android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout4" android:id="@+id/recycler">
-    </android.support.v7.widget.RecyclerView>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:layout_height="0dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/linearLayout4" android:gravity="center_vertical">
-        <EditText
-                android:enabled="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/foodNumber" android:layout_weight="1" android:hint="no" android:padding="22dp"/>
-        <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" android:id="@+id/unit" android:layout_weight="1"/>
-        <Button
-                android:enabled="false"
-                android:text="add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/addButton" android:layout_weight="1"
-                android:background="@drawable/side_nav_bar" android:textColor="@android:color/background_light"
-                style="@style/Widget.AppCompat.Button"/>
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" android:paddingEnd="8dp">
+        <android.support.v7.widget.RecyclerView
+                tools:listitem="@layout/food_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="22dp" android:paddingEnd="22dp"
+                android:id="@+id/recycler"
+                android:layout_weight="1">
+        </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_weight="1">
+            <TextView
+                    android:text="Food Name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/foodTitle" android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                >
+                    <TextView
+                            android:text="@string/meal_calories"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:layout_weight="1"/>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/foodCalories"
+                    />
+                </TableRow>
+                <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                >
+                    <TextView
+                            android:text="@string/meal_protein"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:layout_weight="1"/>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/foodProtein"/>
+                </TableRow>
+                <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                >
+                    <TextView
+                            android:text="@string/meal_carbs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:layout_weight="1"/>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/foodCarbs"
+                    />
+                </TableRow>
+                <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                >
+                    <TextView
+                            android:text="@string/meal_fat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:layout_weight="1"/>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/foodFat"
+                    />
+                </TableRow>
+            </TableLayout>
+            <TextView
+                    android:text="@string/per"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/foodPer" android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayout4" android:gravity="center_vertical">
+                <EditText
+                        android:enabled="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:ems="10"
+                        android:id="@+id/foodNumber" android:layout_weight="1" android:hint="no"
+                        android:padding="22dp"/>
+                <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" android:id="@+id/unit" android:layout_weight="1"/>
+            </LinearLayout>
+            <Button
+                    android:enabled="true"
+                    android:text="calculate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/calculateButton"
+                    android:background="@drawable/side_nav_bar" android:textColor="@android:color/background_light"
+                    style="@style/Widget.AppCompat.Button"/>
+            <TextView
+                    android:text="Your stats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                >
+                    <TextView
+                            android:text="@string/meal_calories"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:layout_weight="1"/>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/yourFoodCalories"
+                    />
+                </TableRow>
+                <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                >
+                    <TextView
+                            android:text="@string/meal_protein"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:layout_weight="1"/>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/yourFoodProtein"/>
+                </TableRow>
+                <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                >
+                    <TextView
+                            android:text="@string/meal_carbs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:layout_weight="1"/>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/yourFoodCarbs"
+                    />
+                </TableRow>
+                <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                >
+                    <TextView
+                            android:text="@string/meal_fat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:layout_weight="1"/>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/yourFoodFat"
+                    />
+                </TableRow>
+            </TableLayout>
+            <TextView
+                    android:text="@string/per"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/textView7"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" android:textAlignment="center"/>
+            <Button
+                    android:enabled="true"
+                    android:text="add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/addButton"
+                    android:background="@drawable/side_nav_bar" android:textColor="@android:color/background_light"
+                    style="@style/Widget.AppCompat.Button" android:layout_marginTop="8dp"/>
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

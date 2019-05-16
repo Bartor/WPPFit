@@ -126,12 +126,13 @@ class AddExerciseFragment : Fragment() {
         if (!verify())
             Toast.makeText(activity, "Fill up every box", Toast.LENGTH_LONG).show()
         else {
-            var exercise = Exercise(
+            val exercise = Exercise(
                 uid = 0, //unique id - autoincrement, leave this at zero
                 type = activitySpinner.selectedItem as ExerciseType,
                 endTime = endDate,
                 startTime = startDate,
-                userRef = viewModel.currentUser.value!!
+                user = viewModel.currentUser.value!!.uid,
+                calories = CaloriesCalc.getCalLossFromActivity(endDate, startDate, activitySpinner.selectedItem as ExerciseType, viewModel.currentUser.value!!)
             )
 
             viewModel.insertExercise(

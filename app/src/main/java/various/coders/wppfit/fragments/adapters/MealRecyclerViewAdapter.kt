@@ -45,7 +45,6 @@ class MealRecyclerViewAdapter(
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.image
         val title: TextView = view.foodItemName
         val desc: TextView = view.foodItemDesc
     }

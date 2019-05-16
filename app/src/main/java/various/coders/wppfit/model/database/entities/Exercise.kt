@@ -21,6 +21,9 @@ import java.util.*
 data class Exercise(
     @PrimaryKey(autoGenerate = true) val uid: Int,
 
+    @ColumnInfo(name = "user")
+    val user: Int,
+
     @ColumnInfo(name = "start_time")
     @TypeConverters(TimeConverter::class)
     val startTime: Date,
@@ -32,10 +35,7 @@ data class Exercise(
     @ColumnInfo(name = "type")
     @TypeConverters(ExerciseTypeConverter::class)
     val type: ExerciseType,
-    val userRef:User
 
-){
-    @ColumnInfo(name = "user") val user: Int = userRef.uid
-    @ColumnInfo(name = "calories") val calories: Int
-            = CaloriesCalc.getCalLossFromActivity(this,userRef)
-}
+    @ColumnInfo(name = "calories")
+    val calories: Float
+)
