@@ -6,12 +6,16 @@ import java.time.LocalDate
 import android.R.attr.duration
 import various.coders.wppfit.model.database.types.ExerciseType
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
+import kotlin.math.min
 
 
 class CaloriesCalc {
     companion object {
         private const val KG_CALORIES: Double = 7800.0
-        private const val CALORIES_WEIGHT_RATIO = 8.58
+        private const val PROTEIN_CALORIES_PER_GRAM = 4
+        private const val FAT_CALORIES_PER_GRAM = 9
+        private const val CARBS_CALORIES_PER_GRAM = 4
         fun getCaloricIntake(user: User): Double {
             val now = LocalDate.now().year
             return (user.activity.ratio
@@ -38,7 +42,23 @@ class CaloriesCalc {
                             * exercise.type.calRatio
                     ).toInt()
         }
-        fun getMacroNutrientsRatio(){}
+        fun getMacroNutrientsRatio(user:User, daysToTarget: Int, targetWeight: Double){
+            val offset = getCaloricOffset(user,daysToTarget,targetWeight)
+            val intake = getCaloricIntake(user)
+            val calRatio = intake/offset
+            var proteinCal = 0.8 * user.weight
+
+            if(calRatio < 0)
+                proteinCal*=min(10*abs(calRatio),2.0) //increasing protein intake depending
+                                                                    // on calories deficit
+            val fatCal = 0.3 * intake
+            val carbCal = intake - proteinCal - fatCal
+
+            val fatGram = fatCal / FAT_CALORIES_PER_GRAM
+            val proteinGram = proteinCal / PROTEIN_CALORIES_PER_GRAM
+            val carbGram = carbCal / CARBS_CALORIES_PER_GRAM
+            //TODO make the right output
+        }
 
     }
 
