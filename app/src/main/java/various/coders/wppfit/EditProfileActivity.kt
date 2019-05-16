@@ -55,7 +55,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         // Setting up ActivityLevel spinner
         activitySpinner.adapter =
-            ArrayAdapter<ActivityLevel>(this, android.R.layout.simple_spinner_item, ActivityLevel.values())
+            ArrayAdapter<ActivityLevel>(this, android.R.layout.simple_spinner_dropdown_item, ActivityLevel.values())
 
         //if there is set user in prefs
         if (user != -1) {
