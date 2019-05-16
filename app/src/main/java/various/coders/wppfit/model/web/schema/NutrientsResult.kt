@@ -9,13 +9,13 @@ data class NutrientsResult (
 
 data class NutrientResult(
     @SerializedName("ENERC_KCAL")
-    val calories: Nutrient,
+    val calories: Nutrient?,
     @SerializedName("FAT")
-    val fat: Nutrient,
+    val fat: Nutrient?,
     @SerializedName("CHOCDF")
-    val carbs: Nutrient,
+    val carbs: Nutrient?,
     @SerializedName("PROCNT")
-    val protein: Nutrient
+    val protein: Nutrient?
 )
 
 data class Nutrient(

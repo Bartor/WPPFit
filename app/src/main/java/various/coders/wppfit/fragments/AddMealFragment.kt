@@ -51,6 +51,9 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
             adapter = MealRecyclerViewAdapter(foodResults, this@AddMealFragment)
         }
 
+        setCalculatedFoodInfo(null)
+        setFoodInfo(null)
+
         searchButton.setOnClickListener {
             if (!foodName.text.isBlank()) {
                 it.isEnabled = false
@@ -118,14 +121,17 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
                         user = viewModel.currentUser.value!!.uid,
                         time = Date(),
                         name = selectedFood!!.food.label,
-                        carbs = calculatedFood!!.nutrient.carbs.quantity,
-                        protein = calculatedFood!!.nutrient.protein.quantity,
-                        fat = calculatedFood!!.nutrient.fat.quantity,
-                        calories = calculatedFood!!.nutrient.calories.quantity,
+                        carbs = calculatedFood!!.nutrient.carbs?.quantity ?: 0f,
+                        protein = calculatedFood!!.nutrient.protein?.quantity ?: 0f,
+                        fat = calculatedFood!!.nutrient.fat?.quantity ?: 0f,
+                        calories = calculatedFood!!.nutrient.calories?.quantity ?: 0f,
                         weight = foodNumber.text.toString().toFloatOrNull() ?: 1f
                     )
                 )
             }
+            Toast.makeText(activity, "Added!", Toast.LENGTH_LONG).show()
+            setCalculatedFoodInfo(null)
+            setFoodInfo(null)
         }
 
         viewModel = ViewModelProviders.of(activity!!).get(AppViewModel::class.java)
@@ -141,20 +147,25 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
 
     private fun setFoodInfo(food: FoodMeasure?) {
         selectedFood = food
-        foodTitle.text = food?.food?.label?: ""
-        foodCalories.text = (food?.food?.nutrients?.calories ?: "").toString()
-        foodCarbs.text = (food?.food?.nutrients?.carbs ?: "").toString()
-        foodFat.text = (food?.food?.nutrients?.fat ?: "").toString()
-        foodProtein.text = (food?.food?.nutrients?.proteins ?: "").toString()
-        foodPer.text = getString(R.string.per, food?.measures?.get(0)?.label)
+        setCalculatedFoodInfo(null)
+        foodTitle.text = food?.food?.label ?: ""
+        foodCalories.text = "%.1f".format(food?.food?.nutrients?.calories ?: 0f)
+        foodCarbs.text = "%.1f".format(food?.food?.nutrients?.carbs ?: 0f)
+        foodFat.text = "%.1f".format(food?.food?.nutrients?.fat ?: 0f)
+        foodProtein.text = "%.1f".format(food?.food?.nutrients?.proteins ?: 0f)
+        foodPer.text = getString(R.string.per, food?.measures?.get(0)?.label ?: "")
     }
 
     private fun setCalculatedFoodInfo(food: NutrientsResult?) {
         calculatedFood = food
-        yourFoodCalories.text = (food?.nutrient?.calories?.quantity ?: "").toString()
-        yourFoodCarbs.text = (food?.nutrient?.carbs?.quantity ?: "").toString()
-        yourFoodProtein.text = (food?.nutrient?.protein?.quantity ?: "").toString()
-        yourFoodFat.text = (food?.nutrient?.fat?.quantity ?: "").toString()
+        yourFoodCalories.text = "%.1f".format(food?.nutrient?.calories?.quantity ?: 0f)
+        yourFoodCarbs.text = "%.1f".format(food?.nutrient?.carbs?.quantity ?: 0f)
+        yourFoodProtein.text = "%.1f".format(food?.nutrient?.protein?.quantity ?: 0f)
+        yourFoodFat.text = "%.1f".format(food?.nutrient?.fat?.quantity ?: 0f)
+        yourPer.text = getString(
+            R.string.per,
+            (foodNumber.text.toString().toFloatOrNull() ?: 1f).toString() + " " + unit.selectedItem
+        )
     }
 }
 

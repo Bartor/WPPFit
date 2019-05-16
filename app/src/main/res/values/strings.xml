@@ -30,10 +30,10 @@
     <string name="home_subtitle2">Calories burnt today:\n%1$.1f</string>
     <string name="home_goal">Goal calories: %1$.1f \/ %2$.1f</string>
 
-    <string name="meal_calories">Calories</string>
-    <string name="meal_fat">Fat</string>
-    <string name="meal_carbs">Carbs</string>
-    <string name="meal_protein">Protein</string>
+    <string name="meal_calories">Calories (g)</string>
+    <string name="meal_fat">Fat (g)</string>
+    <string name="meal_carbs">Carbs (g)</string>
+    <string name="meal_protein">Protein (g)</string>
     <string name="per">per %1$s</string>
 
     <string name="starting_time">Starting time</string>
