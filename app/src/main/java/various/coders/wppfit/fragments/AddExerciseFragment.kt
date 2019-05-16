@@ -21,6 +21,7 @@ import various.coders.wppfit.model.database.entities.Exercise
 import various.coders.wppfit.model.database.types.ActivityLevel
 import various.coders.wppfit.model.database.types.ExerciseType
 import java.sql.Time
+import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 
@@ -52,15 +53,20 @@ class AddExerciseFragment : Fragment() {
             picker.show()
         }
         endDateText.setOnClickListener {
-            val picker = DatePickerDialog(activity).apply {
-                setOnDateSetListener { _, year, month, dayOfMonth ->
+            val picker = DatePickerDialog(
+                activity,
+                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                     this@AddExerciseFragment.updateEndDate(Date().also {
                         it.year = year
                         it.month = month
                         it.date = dayOfMonth
                     })
-                }
-            }
+                }, LocalDate.now().year,
+                LocalDate.now().month.value,
+                LocalDate.now().dayOfMonth
+
+            )
+
             picker.show()
         }
         startTimeText.setOnClickListener {
@@ -93,7 +99,7 @@ class AddExerciseFragment : Fragment() {
         viewModel = ViewModelProviders.of(activity!!).get(AppViewModel::class.java)
 
         exerciseSpinner.adapter =
-            ArrayAdapter<ExerciseType>(activity, android.R.layout.simple_spinner_item,ExerciseType.values())
+            ArrayAdapter<ExerciseType>(activity, android.R.layout.simple_spinner_item, ExerciseType.values())
 
         addExcButton.setOnClickListener { apply() }
     }
@@ -110,14 +116,17 @@ class AddExerciseFragment : Fragment() {
         date.minutes = this.endDate.minutes
         this.endDate = date
     }
-    fun updateStartTime(hour:Int,minute:Int){
+
+    fun updateStartTime(hour: Int, minute: Int) {
         startDate.hours = hour
         startDate.minutes = minute
     }
-    fun updateEndTime(hour:Int,minute:Int){
+
+    fun updateEndTime(hour: Int, minute: Int) {
         endDate.hours = hour
         endDate.minutes = minute
     }
+
     fun verify(): Boolean {
         return true
     }
