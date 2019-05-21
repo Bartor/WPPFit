@@ -34,8 +34,8 @@
                 android:text="@android:string/search_go"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/searchButton" android:layout_weight="1"
-                android:background="@drawable/side_nav_bar" android:textColor="@android:color/background_light"
-                style="@style/Widget.AppCompat.Button"/>
+                android:textColor="@android:color/background_light"
+                style="@style/Widget.AppCompat.Button" android:background="@drawable/button_background"/>
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
             tools:listitem="@layout/food_item"
