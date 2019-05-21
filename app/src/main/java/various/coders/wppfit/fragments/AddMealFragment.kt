@@ -1,6 +1,8 @@
 package various.coders.wppfit.fragments
 
+import android.app.AlertDialog
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import kotlinx.android.synthetic.main.food_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_add_meal.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -51,14 +54,9 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
             adapter = MealRecyclerViewAdapter(foodResults, this@AddMealFragment)
         }
 
-        setCalculatedFoodInfo(null)
-        setFoodInfo(null)
-
         searchButton.setOnClickListener {
             if (!foodName.text.isBlank()) {
                 it.isEnabled = false
-                setFoodInfo(null)
-                setCalculatedFoodInfo(null)
 
                 api.foodQuery(foodName.text.toString().trim(), apiId, apiKey).enqueue(object : Callback<FoodResult> {
                     override fun onFailure(call: Call<FoodResult>?, t: Throwable?) {
@@ -72,40 +70,6 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
                             foodResults.clear()
                             foodResults.addAll(response.body().foods)
                             recycler.adapter.notifyDataSetChanged()
-                        }
-                        it.isEnabled = true
-                    }
-                })
-            }
-        }
-
-        calculateButton.setOnClickListener {
-            if (selectedFood != null) {
-
-                it.isEnabled = false
-
-                api.nutrientsQuery(
-                    apiId,
-                    apiKey,
-                    NutrientsBody(
-                        listOf(
-                            Ingredient(
-                                foodId = selectedFood!!.food.foodId,
-                                measureUri = selectedFood!!.measures.filter { it.label == unit.selectedItem }[0].uri,
-                                quantity = foodNumber.text.toString().toFloatOrNull() ?: 1f
-                            )
-                        )
-                    )
-                ).enqueue(object : Callback<NutrientsResult> {
-                    override fun onFailure(call: Call<NutrientsResult>?, t: Throwable?) {
-                        Toast.makeText(activity, "There was an netowrk error", Toast.LENGTH_LONG).show()
-                        it.isEnabled = true
-                    }
-
-                    override fun onResponse(call: Call<NutrientsResult>?, response: Response<NutrientsResult>?) {
-                        if (response != null) {
-                            println(response.body())
-                            setCalculatedFoodInfo(response.body())
                         }
                         it.isEnabled = true
                     }
@@ -130,42 +94,65 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
                 )
             }
             Toast.makeText(activity, "Added!", Toast.LENGTH_LONG).show()
-            setCalculatedFoodInfo(null)
-            setFoodInfo(null)
         }
 
         viewModel = ViewModelProviders.of(activity!!).get(AppViewModel::class.java)
     }
 
     override fun onMealInteraction(food: FoodMeasure) {
-        unit.adapter = ArrayAdapter<String>(
-            activity,
-            android.R.layout.simple_spinner_dropdown_item,
-            food.measures.map { it.label })
-        setFoodInfo(food)
+        mealCalc(food)
     }
 
-    private fun setFoodInfo(food: FoodMeasure?) {
-        selectedFood = food
-        setCalculatedFoodInfo(null)
-        foodTitle.text = food?.food?.label ?: ""
-        foodCalories.text = "%.1f".format(food?.food?.nutrients?.calories ?: 0f)
-        foodCarbs.text = "%.1f".format(food?.food?.nutrients?.carbs ?: 0f)
-        foodFat.text = "%.1f".format(food?.food?.nutrients?.fat ?: 0f)
-        foodProtein.text = "%.1f".format(food?.food?.nutrients?.proteins ?: 0f)
-        foodPer.text = getString(R.string.per, food?.measures?.get(0)?.label ?: "")
-    }
+    private fun mealCalc(selectedFood: FoodMeasure) {
+        val builder = AlertDialog.Builder(activity)
+        builder.setTitle(getString(R.string.meal_calc))
+        val layout = layoutInflater.inflate(R.layout.food_dialog, null)
+        layout.apply {
+            foodName.text = selectedFood.food.label
+            foodCalories.text = "%.1f".format(selectedFood.food.nutrients.calories)
+            foodCarbs.text = "%.1f".format(selectedFood.food.nutrients.carbs)
+            foodFat.text = "%.1f".format(selectedFood.food.nutrients.fat)
+            foodProtein.text = "%.1f".format(selectedFood.food.nutrients.proteins)
 
-    private fun setCalculatedFoodInfo(food: NutrientsResult?) {
-        calculatedFood = food
-        yourFoodCalories.text = "%.1f".format(food?.nutrient?.calories?.quantity ?: 0f)
-        yourFoodCarbs.text = "%.1f".format(food?.nutrient?.carbs?.quantity ?: 0f)
-        yourFoodProtein.text = "%.1f".format(food?.nutrient?.protein?.quantity ?: 0f)
-        yourFoodFat.text = "%.1f".format(food?.nutrient?.fat?.quantity ?: 0f)
-        yourPer.text = getString(
-            R.string.per,
-            (foodNumber.text.toString().toFloatOrNull() ?: 1f).toString() + " " + unit.selectedItem
-        )
+            unit.adapter = ArrayAdapter<String>(
+                activity,
+                android.R.layout.simple_spinner_dropdown_item,
+                selectedFood.measures.map { it.label })
+
+            calculateButton.setOnClickListener {
+                api.nutrientsQuery(
+                    apiId,
+                    apiKey,
+                    NutrientsBody(
+                        listOf(
+                            Ingredient(
+                                foodId = selectedFood!!.food.foodId,
+                                measureUri = selectedFood!!.measures.filter { it.label == unit.selectedItem }[0].uri,
+                                quantity = foodNumber.text.toString().toFloatOrNull() ?: 1f
+                            )
+                        )
+                    )
+                ).enqueue(object : Callback<NutrientsResult> {
+                    override fun onFailure(call: Call<NutrientsResult>?, t: Throwable?) {
+                        Toast.makeText(activity, "There was an netowrk error", Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onResponse(call: Call<NutrientsResult>?, response: Response<NutrientsResult>?) {
+                        if (response != null) {
+                            val food = response.body()
+                            yourFoodCalories.text = "%.1f".format(food?.nutrient?.calories?.quantity ?: 0f)
+                            yourFoodCarbs.text = "%.1f".format(food?.nutrient?.carbs?.quantity ?: 0f)
+                            yourFoodProtein.text = "%.1f".format(food?.nutrient?.protein?.quantity ?: 0f)
+                            yourFoodFat.text = "%.1f".format(food?.nutrient?.fat?.quantity ?: 0f)
+                        }
+                    }
+                })
+            }
+        }
+        builder.setView(layout)
+        builder.setPositiveButton("Add", DialogInterface.OnClickListener { dialog, which ->
+
+        })
     }
 }
 

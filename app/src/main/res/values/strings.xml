@@ -36,6 +36,8 @@
     <string name="meal_protein">Protein (g)</string>
     <string name="per">per %1$s</string>
 
+    <string name="meal_calc">Calculate ingredients</string>
+
     <string name="starting_time">Starting time</string>
     <string name="ending_time">Ending time</string>
     <string name="starting_date">Starting date</string>
