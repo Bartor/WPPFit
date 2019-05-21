@@ -72,7 +72,3 @@ class ChangeProfileFragment : Fragment(), OnListFragmentInteractionListener {
         }
     }
 }
-
-interface OnListFragmentInteractionListener {
-    fun onListFragmentInteraction(item: User)
-}
