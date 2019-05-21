@@ -12,23 +12,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/topBarGuideline"
             app:layout_constraintGuide_begin="56dp"/>
-    <TextView
-            android:text="Add a new meal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="@+id/topBarGuideline"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" android:id="@+id/title"
-            android:fontFamily="@font/abel"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/title" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" android:id="@+id/linearLayout3">
+            android:layout_marginStart="8dp" android:id="@+id/linearLayout3" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="@+id/topBarGuideline">
         <EditText
                 android:layout_weight="3"
                 android:layout_width="wrap_content"

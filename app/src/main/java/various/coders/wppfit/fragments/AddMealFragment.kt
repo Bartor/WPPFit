@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.food_dialog.*
 import kotlinx.android.synthetic.main.food_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_add_meal.*
 import retrofit2.Call
@@ -29,11 +31,10 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
     private lateinit var viewModel: AppViewModel
     private val api = FoodAPIClient.getService()
 
-    private var selectedFood: FoodMeasure? = null
-    private var calculatedFood: NutrientsResult? = null
-
     private lateinit var apiId: String
     private lateinit var apiKey: String
+
+    private lateinit var selectedFood: FoodMeasure
 
     private val foodResults: MutableList<FoodMeasure> = mutableListOf()
 
@@ -77,30 +78,30 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
             }
         }
 
-        addButton.setOnClickListener {
-            if (selectedFood != null && calculatedFood != null) {
-                viewModel.insertMeal(
-                    Meal(
-                        uid = 0,
-                        user = viewModel.currentUser.value!!.uid,
-                        time = Date(),
-                        name = selectedFood!!.food.label,
-                        carbs = calculatedFood!!.nutrient.carbs?.quantity ?: 0f,
-                        protein = calculatedFood!!.nutrient.protein?.quantity ?: 0f,
-                        fat = calculatedFood!!.nutrient.fat?.quantity ?: 0f,
-                        calories = calculatedFood!!.nutrient.calories?.quantity ?: 0f,
-                        weight = foodNumber.text.toString().toFloatOrNull() ?: 1f
-                    )
-                )
-            }
-            Toast.makeText(activity, "Added!", Toast.LENGTH_LONG).show()
-        }
-
         viewModel = ViewModelProviders.of(activity!!).get(AppViewModel::class.java)
     }
 
     override fun onMealInteraction(food: FoodMeasure) {
+        selectedFood = food
         mealCalc(food)
+    }
+
+    private fun insertFood(food: NutrientsResult, weight: Float) {
+        println("XD")
+        viewModel.insertMeal(
+            Meal(
+                uid = 0,
+                user = viewModel.currentUser.value!!.uid,
+                time = Date(),
+                name = selectedFood.food.label,
+                carbs = food.nutrient.carbs?.quantity ?: 0f,
+                protein = food.nutrient.protein?.quantity ?: 0f,
+                fat = food.nutrient.fat?.quantity ?: 0f,
+                calories = food.nutrient.calories?.quantity ?: 0f,
+                weight = weight
+            )
+        )
+        println("henl")
     }
 
     private fun mealCalc(selectedFood: FoodMeasure) {
@@ -108,7 +109,6 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
         builder.setTitle(getString(R.string.meal_calc))
         val layout = layoutInflater.inflate(R.layout.food_dialog, null)
         layout.apply {
-            foodName.text = selectedFood.food.label
             foodCalories.text = "%.1f".format(selectedFood.food.nutrients.calories)
             foodCarbs.text = "%.1f".format(selectedFood.food.nutrients.carbs)
             foodFat.text = "%.1f".format(selectedFood.food.nutrients.fat)
@@ -126,15 +126,15 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
                     NutrientsBody(
                         listOf(
                             Ingredient(
-                                foodId = selectedFood!!.food.foodId,
-                                measureUri = selectedFood!!.measures.filter { it.label == unit.selectedItem }[0].uri,
+                                foodId = selectedFood.food.foodId,
+                                measureUri = selectedFood.measures.filter { it.label == unit.selectedItem }[0].uri,
                                 quantity = foodNumber.text.toString().toFloatOrNull() ?: 1f
                             )
                         )
                     )
                 ).enqueue(object : Callback<NutrientsResult> {
                     override fun onFailure(call: Call<NutrientsResult>?, t: Throwable?) {
-                        Toast.makeText(activity, "There was an netowrk error", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, "There was an network error", Toast.LENGTH_LONG).show()
                     }
 
                     override fun onResponse(call: Call<NutrientsResult>?, response: Response<NutrientsResult>?) {
@@ -150,9 +150,33 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface {
             }
         }
         builder.setView(layout)
-        builder.setPositiveButton("Add", DialogInterface.OnClickListener { dialog, which ->
-
-        })
+        //this is bad, but the dialogs are stateless so
+        builder.setPositiveButton("Add") { _, _ ->
+            //todo fix inserting this
+            insertFood(
+                NutrientsResult(
+                    nutrient = NutrientResult(
+                        calories = Nutrient(
+                            label = "calories",
+                            quantity = yourFoodCalories.text.toString().toFloat(),
+                            unit = "g"
+                        ),
+                        fat = Nutrient(label = "fat", quantity = yourFoodFat.text.toString().toFloat(), unit = "g"),
+                        carbs = Nutrient(
+                            label = "carbs",
+                            quantity = yourFoodCarbs.text.toString().toFloat(),
+                            unit = "g"
+                        ),
+                        protein = Nutrient(
+                            label = "protein",
+                            quantity = yourFoodProtein.text.toString().toFloat(),
+                            unit = "g"
+                        )
+                    )
+                ), weight = foodNumber.text.toString().toFloatOrNull() ?: 1f
+            )
+        }
+        builder.create().show()
     }
 }
 
