@@ -1,20 +1,17 @@
 package various.coders.wppfit.fragments
 
-import android.app.AlertDialog
 import android.arch.lifecycle.ViewModelProviders
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.view.animation.AnimationUtils
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.food_dialog.*
-import kotlinx.android.synthetic.main.food_dialog.view.*
+import kotlinx.android.synthetic.main.activity_edit_profile.view.*
 import kotlinx.android.synthetic.main.fragment_add_meal.*
+import kotlinx.android.synthetic.main.profile_item.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,10 +51,12 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface, MealDialogInterf
         with(recycler) {
             layoutManager = LinearLayoutManager(context)
             adapter = MealRecyclerViewAdapter(foodResults, this@AddMealFragment)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down)
         }
 
         searchButton.setOnClickListener {
             if (!foodName.text.isBlank()) {
+                //todo add some loading animation or something
                 it.isEnabled = false
 
                 api.foodQuery(foodName.text.toString().trim(), apiId, apiKey).enqueue(object : Callback<FoodResult> {
@@ -72,6 +71,7 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface, MealDialogInterf
                             foodResults.clear()
                             foodResults.addAll(response.body().foods)
                             recycler.adapter.notifyDataSetChanged()
+                            recycler.scheduleLayoutAnimation()
                         }
                         it.isEnabled = true
                     }
@@ -94,7 +94,6 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface, MealDialogInterf
     }
 
     private fun insertFood(food: NutrientsResult, weight: Float) {
-        println("XD")
         viewModel.insertMeal(
             Meal(
                 uid = 0,
@@ -108,6 +107,5 @@ class AddMealFragment : Fragment(), OnMealInteractionInterface, MealDialogInterf
                 weight = weight
             )
         )
-        println("henl")
     }
 }
