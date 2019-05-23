@@ -75,9 +75,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                     Activity.RESULT_FIRST_USER -> {
                         viewModel.getNewestUser().observe(this, Observer {
-                            if (it != null) {
-                                updateModel(it.uid)
-                            }
+                            updateModel(it!!.uid)
+                            currentFragment = HomeScreenFragment()
+                            supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit()
                         })
                     }
                 }
