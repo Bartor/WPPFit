@@ -36,7 +36,7 @@ class AddExerciseFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        super.onActivityCreated(savedInstanceState);
 
 
 
