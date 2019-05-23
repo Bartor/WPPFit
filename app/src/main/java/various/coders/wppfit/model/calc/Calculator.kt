@@ -1,9 +1,7 @@
 package various.coders.wppfit.model.calc
 
-import various.coders.wppfit.model.database.entities.Exercise
 import various.coders.wppfit.model.database.entities.User
 import java.time.LocalDate
-import android.R.attr.duration
 import various.coders.wppfit.model.database.types.ExerciseType
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -19,12 +17,10 @@ class CaloriesCalc {
         private const val CARBS_CALORIES_PER_GRAM = 4
         fun getCaloricIntake(user: User): Double {
             val now = LocalDate.now().year
-            return (user.activity.ratio
-                    * when (user.gender) {
+            return (user.activity.ratio * when (user.gender) {
                 true -> 13.397 * user.weight + 4.799 * user.height - 5.677 * (now - user.age.year) + 88.362
                 false -> 9.247 * user.weight + 3.098 * user.height - 4.330 * (now - user.age.year) + 447.593
-            }
-                    )
+            })
         }
 
         fun getCaloricOffset(user: User, daysToTarget: Int, targetWeight: Double): Double {
@@ -40,25 +36,24 @@ class CaloriesCalc {
             return (durationMinutes * user.weight * type.calRatio).toFloat()
         }
 
-        fun getMacroNutrientsRatio(user:User, daysToTarget: Int, targetWeight: Double){
-            val offset = getCaloricOffset(user,daysToTarget,targetWeight)
+        fun getMacroNutrientsRatio(user: User, daysToTarget: Int, targetWeight: Double): Array<Float> {
+            val offset = getCaloricOffset(user, daysToTarget, targetWeight)
             val intake = getCaloricIntake(user)
-            val calRatio = intake/offset
+            val calRatio = intake / offset
             var proteinCal = 0.8 * user.weight
 
-            if(calRatio < 0)
-                proteinCal*=min(10*abs(calRatio),2.0) //increasing protein intake depending
-                                                                    // on calories deficit
+            if (calRatio < 0) proteinCal *= min(
+                10 * abs(calRatio),
+                2.0
+            ) //increasing protein intake depending on calories deficit
             val fatCal = 0.3 * intake
             val carbCal = intake - proteinCal - fatCal
 
             val fatGram = fatCal / FAT_CALORIES_PER_GRAM
             val proteinGram = proteinCal / PROTEIN_CALORIES_PER_GRAM
             val carbGram = carbCal / CARBS_CALORIES_PER_GRAM
-            //TODO make the right output
+            return arrayOf(fatGram.toFloat(), proteinGram.toFloat(), carbGram.toFloat())
         }
-
-        fun getMacroNutrientsRatio() {}
     }
 
 

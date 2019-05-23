@@ -43,23 +43,6 @@ class HomeScreenFragment : Fragment() {
             eSum = it!!.sumByDouble { it.calories.toDouble() }
             updateText()
         })
-
-        //tests adding meals
-        welcomeText.setOnClickListener {
-            viewModel.insertMeal(
-                Meal(
-                    uid = 0,
-                    user = viewModel.currentUser.value!!.uid,
-                    time = Date(),
-                    name = "Coś",
-                    carbs = 33f,
-                    calories = 33f,
-                    protein = 33f,
-                    fat = 33f,
-                    weight = 33f
-                )
-            )
-        }
     }
 
     private fun updateText() {

@@ -29,6 +29,9 @@
     <string name="home_subtitle">Calories intake today:\n%1$.1f</string>
     <string name="home_subtitle2">Calories burnt today:\n%1$.1f</string>
     <string name="home_goal">Goal calories: %1$.1f \/ %2$.1f</string>
+    <string name="home_goal_carbs">Carbs:\n%1$.1f \/ %2$.1f g</string>
+    <string name="home_goal_fat">Fat:\n%1$.1f \/ %2$.1f g</string>
+    <string name="home_goal_protein">Protein:\n%1$.1f \/ %2$.1f g</string>
 
     <string name="meal_calories">Calories (g)</string>
     <string name="meal_fat">Fat (g)</string>
