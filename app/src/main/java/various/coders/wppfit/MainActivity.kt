@@ -37,13 +37,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
+        //getting viewModel
         viewModel = ViewModelProviders.of(this).get(AppViewModel::class.java)
         viewModel.getDb(this)
 
         //select the "home" menu item
-        nav_view.menu.getItem(0).setChecked(true)
+        nav_view.menu.getItem(0).isChecked = true
         nav_view.setNavigationItemSelectedListener(this)
 
+        //getting preferences
         val prefs = getPreferences(Context.MODE_PRIVATE)
 
         //negative values indicate no desired change
@@ -59,7 +61,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             updateModel(uid)
             viewModel.currentUser.observe(this, Observer {
                 currentFragment = HomeScreenFragment()
-                supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, currentFragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, currentFragment).commit()
             })
         }
     }
