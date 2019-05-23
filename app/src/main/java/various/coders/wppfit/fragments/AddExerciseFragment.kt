@@ -14,7 +14,6 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_add_exercise.*
 
-import various.coders.wppfit.R
 import various.coders.wppfit.model.AppViewModel
 import various.coders.wppfit.model.calc.CaloriesCalc
 import various.coders.wppfit.model.database.entities.Exercise
@@ -25,14 +24,22 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.util.*
+import android.widget.TimePicker
+import android.widget.NumberPicker
+import android.R
+
+
+
+private const val MINUTES_STEP = 5
 
 class AddExerciseFragment : Fragment() {
+
     private lateinit var viewModel: AppViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add_exercise, container, false)
+        return inflater.inflate(various.coders.wppfit.R.layout.fragment_add_exercise, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -44,9 +51,21 @@ class AddExerciseFragment : Fragment() {
         viewModel = ViewModelProviders.of(activity!!).get(AppViewModel::class.java)
 
         exerciseSpinner.adapter =
-            ArrayAdapter<ExerciseType>(activity, android.R.layout.simple_spinner_item, ExerciseType.values())
+            ArrayAdapter<ExerciseType>(activity,android.R.layout.simple_spinner_dropdown_item, ExerciseType.values())
 
         addExcButton.setOnClickListener { apply()  }
+
+
+
+        minutesPicker.minValue = 0
+        minutesPicker.maxValue = 50
+
+
+        val formatter = NumberPicker.Formatter { value ->
+            val temp = value * MINUTES_STEP
+            "" + temp
+        }
+        minutesPicker.setFormatter(formatter)
     }
 
 
@@ -59,18 +78,18 @@ class AddExerciseFragment : Fragment() {
             LocalTime.now().atDate(LocalDate.now()).
                 atZone(ZoneId.systemDefault()).toInstant() //TODO editText -> spinner
         )
-        val minutes = minutesPicker.text.toString().toInt()
+        val minutes = minutesPicker.value * MINUTES_STEP
         val startDate = Date(System.currentTimeMillis() - minutes * 60 * 1000)
         val exercise = Exercise(
             uid = 0, //unique id - autoincrement, leave this at zero
-            type = activitySpinner.selectedItem as ExerciseType,
+            type = exerciseSpinner.selectedItem as ExerciseType,
             endTime = endDate,
             startTime = startDate,
             user = viewModel.currentUser.value!!.uid,
             calories = CaloriesCalc.getCalLossFromActivity(
                 endDate,
                 startDate,
-                activitySpinner.selectedItem as ExerciseType,
+                exerciseSpinner.selectedItem as ExerciseType,
                 viewModel.currentUser.value!!
             )
         )
@@ -78,6 +97,9 @@ class AddExerciseFragment : Fragment() {
         viewModel.insertExercise(
             exercise
         )
+        Toast.makeText(activity, "Exercise added!", Toast.LENGTH_LONG).show()
+        minutesPicker.value = 0
+
     }
 
 }

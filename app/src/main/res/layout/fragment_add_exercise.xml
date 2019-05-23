@@ -21,19 +21,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textAppearance="@style/TextAppearance.AppCompat"
-            android:ems="10"
             android:spinnerMode="dropdown"
             app:layout_constraintTop_toBottomOf="@+id/topBarGuideline"
+            app:layout_constraintBottom_toTopOf="@id/minutesTextView"
     />
+    <TextView
+            android:id="@+id/minutesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/minutes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:spinnerMode="dropdown"
+            app:layout_constraintTop_toBottomOf="@+id/exerciseSpinner"
+            app:layout_constraintBottom_toTopOf="@id/minutesPicker"/>
+    <NumberPicker
+            app:layout_constraintTop_toBottomOf="@+id/minutesTextView"
+            app:layout_constraintBottom_toTopOf="@id/addExcButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/minutesPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-    <EditText  android:id="@+id/minutesPicker"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/exerciseSpinner"
-               app:layout_constraintBottom_toTopOf="@id/addExcButton"
-               android:layout_weight="1"/>
+            tools:layout_editor_absoluteX="0dp"/>
     <Button
             android:text="@string/add_exercise"
             android:layout_width="wrap_content"
