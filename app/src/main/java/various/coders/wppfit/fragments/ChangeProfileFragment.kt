@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_profile_list.*
 import various.coders.wppfit.EditProfileActivity
 import various.coders.wppfit.MainActivity
@@ -66,6 +67,7 @@ class ChangeProfileFragment : Fragment(), OnListFragmentInteractionListener {
     override fun onListFragmentInteraction(item: User) {
         if (item.uid > 0) {
             (activity as MainActivity).updateModel(item.uid)
+            Toast.makeText(context, getString(R.string.profile_changed), Toast.LENGTH_LONG).show()
         } else {
             val intent = Intent(activity, EditProfileActivity::class.java)
             activity.startActivityForResult(intent, various.coders.wppfit.EDIT_PROFILE)

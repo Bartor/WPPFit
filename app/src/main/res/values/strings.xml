@@ -24,6 +24,7 @@
     <string name="accept">accept</string>
 
     <string name="new_profile">New profile</string>
+    <string name="profile_changed">Profile changed!</string>
 
     <string name="home_welcome">Hello, %1$s!</string>
     <string name="home_subtitle">Calories intake today:\n%1$.1f</string>
@@ -39,15 +40,11 @@
     <string name="meal_protein">Protein (g)</string>
     <string name="per">per %1$s</string>
 
+    <!-- MEAL DIALOG -->
     <string name="meal_calc">Calculate ingredients</string>
 
-    <string name="starting_time">Starting time</string>
-    <string name="ending_time">Ending time</string>
-    <string name="starting_date">Starting date</string>
-    <string name="ending_date">Ending date</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="add_exercise">Add exercise</string>
-    <string name="minutes">Minutes:</string>
+    <!-- ADD EXERCISE -->
+    <string name="exercise_added">Exercise added!</string>
+    <string name="minutes_of">minutes of</string>
+    <string name="add_exercise">Add</string>
 </resources>
