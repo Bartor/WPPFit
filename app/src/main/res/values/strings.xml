@@ -15,6 +15,7 @@
 
     <string name="nav_change_profile">Change profile</string>
 
+    <!-- EDIT PROFILE -->
     <string name="edit_profile_header">Edit your profile</string>
     <string name="name">name</string>
     <string name="surname">surname</string>
@@ -22,6 +23,8 @@
     <string name="height">height</string>
     <string name="weight">weight</string>
     <string name="accept">accept</string>
+    <string name="M">M</string>
+    <string name="F">F</string>
 
     <string name="new_profile">New profile</string>
     <string name="profile_changed">Profile changed!</string>
@@ -34,6 +37,8 @@
     <string name="home_goal_fat">Fat:\n%1$.1f \/ %2$.1f g</string>
     <string name="home_goal_protein">Protein:\n%1$.1f \/ %2$.1f g</string>
 
+    <!-- ADD MEAL -->
+    <string name="food_name">food name</string>
     <string name="meal_calories">Calories (g)</string>
     <string name="meal_fat">Fat (g)</string>
     <string name="meal_carbs">Carbs (g)</string>
@@ -42,6 +47,9 @@
 
     <!-- MEAL DIALOG -->
     <string name="meal_calc">Calculate ingredients</string>
+    <string name="meal_added">Meal added!</string>
+    <string name="no">no</string>
+    <string name="calculate">calculate</string>
 
     <!-- ADD EXERCISE -->
     <string name="exercise_added">Exercise added!</string>

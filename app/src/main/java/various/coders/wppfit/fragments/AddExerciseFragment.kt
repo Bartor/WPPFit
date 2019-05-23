@@ -30,11 +30,11 @@ class AddExerciseFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(various.coders.wppfit.R.layout.fragment_add_exercise, container, false)
+        return inflater.inflate(R.layout.fragment_add_exercise, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState);
+        super.onActivityCreated(savedInstanceState)
         //get the activity's view model when activity is available
         viewModel = ViewModelProviders.of(activity!!).get(AppViewModel::class.java)
 

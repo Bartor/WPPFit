@@ -27,9 +27,11 @@
                 android:inputType="text"
                 android:ems="10"
                 android:id="@+id/foodName"
-                android:singleLine="true" android:hint="food name"
+                android:hint="@string/food_name"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                style="@style/Widget.AppCompat.AutoCompleteTextView" android:padding="22dp"/>
+                android:padding="22dp"/>
         <Button
                 android:text="@android:string/search_go"
                 android:layout_width="wrap_content"

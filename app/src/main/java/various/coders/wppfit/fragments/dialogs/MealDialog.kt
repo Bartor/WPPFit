@@ -84,9 +84,12 @@ class MealDialog(context: Context?, private val selectedFood: FoodMeasure) : Ale
             }
         }
         builder.setPositiveButton("Add") { _, _ ->
-            if (calculatedFood != null) listener.onMealAdd(
-                calculatedFood!!, weight
-            )
+            if (calculatedFood != null) {
+                Toast.makeText(context, context.getString(R.string.meal_added), Toast.LENGTH_LONG).show()
+                listener.onMealAdd(
+                    calculatedFood!!, weight
+                )
+            }
         }
 
         builder.setView(layout)

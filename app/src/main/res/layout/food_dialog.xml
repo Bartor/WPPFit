@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
-                android:id="@+id/foodNumber" android:hint="no"
+                android:id="@+id/foodNumber" android:hint="@string/no"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" android:padding="18dp"
                 android:layout_weight="1"/>
         <Spinner
@@ -80,7 +80,7 @@
     </LinearLayout>
     <Button
             android:enabled="true"
-            android:text="calculate"
+            android:text="@string/calculate"
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:id="@+id/calculateButton"
             android:background="@drawable/bg_enabled" android:textColor="@android:color/background_light"
