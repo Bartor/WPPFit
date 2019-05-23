@@ -1,5 +1,6 @@
 package various.coders.wppfit.model.calc
 
+import various.coders.wppfit.model.NutritionInfo
 import various.coders.wppfit.model.database.entities.User
 import java.time.LocalDate
 import various.coders.wppfit.model.database.types.ExerciseType
@@ -36,7 +37,7 @@ class CaloriesCalc {
             return (durationMinutes * user.weight * type.calRatio).toFloat()
         }
 
-        fun getMacroNutrientsRatio(user: User, daysToTarget: Int, targetWeight: Double): Array<Float> {
+        fun getMacroNutrientsRatio(user: User, daysToTarget: Int, targetWeight: Double): NutritionInfo {
             val offset = getCaloricOffset(user, daysToTarget, targetWeight)
             val intake = getCaloricIntake(user)
             val calRatio = intake / offset
@@ -52,7 +53,7 @@ class CaloriesCalc {
             val fatGram = fatCal / FAT_CALORIES_PER_GRAM
             val proteinGram = proteinCal / PROTEIN_CALORIES_PER_GRAM
             val carbGram = carbCal / CARBS_CALORIES_PER_GRAM
-            return arrayOf(fatGram.toFloat(), proteinGram.toFloat(), carbGram.toFloat())
+            return NutritionInfo(fat = fatGram, protein = proteinGram, carbs = carbGram)
         }
     }
 
